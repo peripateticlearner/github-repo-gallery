@@ -1,6 +1,9 @@
 //Creating Global Variables that Select Div Where Profile Information Will Appear
 const overview = document.querySelector (".overview");
 const username = "peripateticlearner";
+//The Unordered List that Displays the Repos List
+const reposList  = document.querySelector(".repo-list");
+
 
 //Fetch Information from GitHub Profile
 const gitUserInfo = async function () {
@@ -27,4 +30,9 @@ const displayUserInfo = function (data) {
     </div>
     `;
     overview.append(div);
+};
+
+const gitRepos = async function () {
+    const fetchRepos = await fetch (`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`);
+    const reposData = await fetchRepos.json();
 };
