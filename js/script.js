@@ -36,10 +36,10 @@ const displayUserInfo = function (data) {
     </div>
     `;
     overview.append(div);
-    gitRepos();
+    gitRepos(username);
 };
 
-const gitRepos = async function () {
+const gitRepos = async function (username) {
     const fetchRepos = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`);
     const repoData = await fetchRepos.json();
     displayRepos(repoData);
@@ -47,12 +47,12 @@ const gitRepos = async function () {
 
 const displayRepos = function (repos) {
     filterInput.classList.remove("hide");
-    for (let repo of repos) {
+    for (const repo of repos) {
         const repoItem = document.createElement("li");
         repoItem.classList.add("repo");
         repoItem.innerHTML = `<h3>${repo.name}</h3>`;
         repoList.append(repoItem);
-    };
+    }
 };
 
 repoList.addEventListener("click", function (e) {
@@ -65,7 +65,7 @@ repoList.addEventListener("click", function (e) {
 const getRepoInfo = async function (repoName) {
     const fetchInfo = await fetch(`https://api.github.com/repos/${username}/${repoName}`);
     const repoInfo = await fetchInfo.json();
-    console.log(repoInfo);
+    //console.log(repoInfo);
     
     //Grab languages
     const fetchLanguages = await fetch(repoInfo.languages_url);
@@ -77,11 +77,11 @@ const getRepoInfo = async function (repoName) {
         languages.push(language);
     }
     displayRepoInfo(repoInfo, languages);
-}
+};
 
 const displayRepoInfo = function (repoInfo, languages) {
     viewReposButton.classList.remove("hide");
-    repoData.innherHTML = "";
+    repoData.innerHTML = "";
     repoData.classList.remove("hide");
     allReposContainer.classList.add("hide");
     const div = document.createElement("div");
@@ -99,7 +99,7 @@ viewReposButton.addEventListener("click", function () {
     allReposContainer.classList.remove("hide");
     repoData.classList.add("hide");
     viewReposButton.classList.add("hide");
-})
+});
 
 // // Dynamic Search
 filterInput.addEventListener("input", function (e) {
